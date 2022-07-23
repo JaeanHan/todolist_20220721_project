@@ -21,7 +21,7 @@ public class IndexController {
     private final UserServiceImpl userService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @GetMapping("/test/login") // 이거 실행안됨
+    @GetMapping("/test/login") // 이거 oauth 실행안됨
     @ResponseBody
     public String testLogin(Authentication authentication,
                             //해당 어노테이션을 통해 Security Session 에 접근 가능
@@ -49,8 +49,8 @@ public class IndexController {
 
     @GetMapping({"", "/"})
     public String index() {
-        // 스프링이 권장하고 있는 tmplate engine Mustache (사용은 Thymeleaf)
-        // 기본촐더 /src/main/resource
+        // 스프링이 권장하고 있는 template engine Mustache (사용은 Thymeleaf)
+        // 기본폴더 /src/main/resource
         // 뷰 리졸버 설정 : templates (prefix), .mustache (suffix)
         return "index";
     }

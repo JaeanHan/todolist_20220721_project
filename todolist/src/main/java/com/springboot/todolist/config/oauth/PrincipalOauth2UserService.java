@@ -1,6 +1,10 @@
 package com.springboot.todolist.config.oauth;
 
 import com.springboot.todolist.config.auth.PrincipalDetails;
+import com.springboot.todolist.config.oauth.provider.GoogleUserInfo;
+import com.springboot.todolist.config.oauth.provider.KaKaoUserInfo;
+import com.springboot.todolist.config.oauth.provider.NaverUserInfo;
+import com.springboot.todolist.config.oauth.provider.OAuth2UserInfo;
 import com.springboot.todolist.domain.entity.User;
 import com.springboot.todolist.domain.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,14 +31,29 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         // -> AccessToken 요청 여기까지가 userRequest 정보
         // userRequest 정보를 통해 -> 회원 프로필 받아야함 (loadUser 함수) -> loadUser 함수가 구글로부터 회원프로필을 받아준다.
         OAuth2User oAuth2User = super.loadUser(userRequest);
+        System.out.println("getAttributes : " + oAuth2User.getAttributes());
 
-        String provider = userRequest.getClientRegistration().getClientName(); // google
-        String providerId = oAuth2User.getAttribute("sub");
+        OAuth2UserInfo oAuth2UserInfo = null;
+        if(userRequest.getClientRegistration().getRegistrationId().equals("google")) {
+            System.out.println("구글 로그인 요청");
+            oAuth2UserInfo = new GoogleUserInfo(oAuth2User.getAttributes());
+        } else if (userRequest.getClientRegistration().getRegistrationId().equals("naver")) {
+            System.out.println("네이버 로그인 요청");
+            oAuth2UserInfo = new NaverUserInfo(oAuth2User.getAttribute("response"));
+        } else if (userRequest.getClientRegistration().getRegistrationId().equals("kakao")) {
+            System.out.println("카카오 로그인 요청");
+            oAuth2UserInfo = new KaKaoUserInfo(oAuth2User.getAttribute("id"), oAuth2User.getAttribute("kakao_account"));
+        } else {
+            System.out.println("그외엔 지원 안돼요ㅜ");
+        }
+
+        String provider = oAuth2UserInfo.getProvider();
+        String providerId = oAuth2UserInfo.getProviderId();
         String username = provider + "_" + providerId; // google_123123123 유저네임 충돌 날 이유x
 //        String password = bCryptPasswordEncoder.encode("겟인데어"); // 크게 의미 없지만
         String password = "circular reference due to bcrypt";
-        String email = oAuth2User.getAttribute("email");
-        String name = oAuth2User.getAttribute("name");
+        String email = oAuth2UserInfo.getEmail();
+        String name = oAuth2UserInfo.getName();
 
         User userEntity = userRepository.findByUsername(username);
 

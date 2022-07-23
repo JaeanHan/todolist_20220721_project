@@ -23,7 +23,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final PrincipalOauth2UserService principalOauth2UserService;
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
@@ -36,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 .loginPage("/loginForm")
                 // .usernameParameter("사용자설정 값) 바꿔줄 수 있음
-                .loginProcessingUrl("/login") //login 주사가 호출되면 시큐리티가 낚아채서 대신 로그인을 진행해줍니다.
+                .loginProcessingUrl("/login") //login 주소가 호출되면 시큐리티가 낚아채서 대신 로그인을 진행해줍니다.
                 .defaultSuccessUrl("/")
                 .and()
                 .oauth2Login()

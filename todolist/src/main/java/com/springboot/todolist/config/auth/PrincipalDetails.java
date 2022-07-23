@@ -24,7 +24,7 @@ import java.util.Map;
 @Data
 public class PrincipalDetails implements UserDetails, OAuth2User {
 
-    private User user; // 콤포지션
+    private User user; // composition
     private Map<String, Object> attributes;
 
     public PrincipalDetails(User user) { // 일반 로그인
@@ -37,7 +37,6 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
     }
     @Override
     public Map<String, Object> getAttributes() {
-
         return attributes;
     }
 
