@@ -43,6 +43,7 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
         } else if (userRequest.getClientRegistration().getRegistrationId().equals("kakao")) {
             System.out.println("카카오 로그인 요청");
             oAuth2UserInfo = new KaKaoUserInfo(oAuth2User.getAttribute("id"), oAuth2User.getAttribute("kakao_account"));
+            //카카오 json 되게 감싸져있음
         } else {
             System.out.println("그외엔 지원 안돼요ㅜ");
         }
