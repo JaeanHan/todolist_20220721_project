@@ -1,0 +1,38 @@
+
+server:
+  port: 8080
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+      force-request: true
+      force-response: true
+  tomcat:
+    uri-encoding: UTF-8
+
+spring:
+  mvc:
+    static-path-pattern: /static/**
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: "jdbc:mariadb://web-study.ckxj9ziinanv.ap-northeast-2.rds.amazonaws.com:3306/todolist?useUnicode=true&characterEncoding=UTF-08"
+    username: "admin"
+    password: "1q2w3e4r"
+#  main:
+#    allow-circular-references: true
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 644050543123-ut81i5e8tpk6fdakuj7cb0b8efjhbea3.apps.googleusercontent.com
+            client-secret: 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
+            scope:
+              - email
+              - profile
+
+mybatis:
+  mapper-locations:
+    - /mappers/*.xml
